@@ -1049,10 +1049,12 @@
   setInterval(updateTimer, 1000);
 
   // --- Wishes form: emails the couple, then hands the guest a personal letter ---
-  // Messages are delivered by FormSubmit (no backend needed). Swap the address below to change the recipient.
-  // The very first submission makes FormSubmit email that address an activation link to confirm it.
+  // Messages are emailed to the couple by Web3Forms (no backend needed). To receive them, create a free access key at
+  // https://web3forms.com (enter the destination email, the key is emailed back) and paste it below.
+  // The recipient is fixed by the key, so to switch to the groom's email later, just make a new key and replace this one.
+  // While the key is empty, the page falls back to FormSubmit (confirm the address once through its activation email).
+  const WEB3FORMS_KEY = "";
   const WISH_EMAIL = "ahmedraslan277@gmail.com";
-  const WISH_ENDPOINT = "https://formsubmit.co/ajax/" + WISH_EMAIL;
   const DATE_TEXT = "18 · 11 · 2026";
   const LETTER_LINES = [
     "كلمتك دخلت قلبنا قبل ما توصلنا، وفرّحتنا أوي.",
@@ -1065,13 +1067,16 @@
   let guestName = "";
 
   async function sendWish(name, message) {
-    const res = await fetch(WISH_ENDPOINT, {
+    const web3 = !!WEB3FORMS_KEY;
+    const res = await fetch(web3 ? "https://api.web3forms.com/submit" : "https://formsubmit.co/ajax/" + WISH_EMAIL, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify({ name, message, _subject: "تهنئة جديدة من " + name, _template: "table", _captcha: "false" })
+      body: JSON.stringify(web3
+        ? { access_key: WEB3FORMS_KEY, subject: "تهنئة جديدة من " + name, from_name: "دعوة علي وسوزي", name, message }
+        : { name, message, _subject: "تهنئة جديدة من " + name, _template: "table", _captcha: "false" })
     });
     const data = await res.json().catch(() => ({}));
-    console.info("FormSubmit response", res.status, data);
+    console.info("wish response", res.status, data);
     if (!res.ok || data.success === "false" || data.success === false) throw new Error(data.message || ("HTTP " + res.status));
   }
 
