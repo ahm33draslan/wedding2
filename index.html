@@ -1071,7 +1071,8 @@
       body: JSON.stringify({ name, message, _subject: "تهنئة جديدة من " + name, _template: "table", _captcha: "false" })
     });
     const data = await res.json().catch(() => ({}));
-    if (!res.ok || data.success === "false" || data.success === false) throw new Error(data.message || "send failed");
+    console.info("FormSubmit response", res.status, data);
+    if (!res.ok || data.success === "false" || data.success === false) throw new Error(data.message || ("HTTP " + res.status));
   }
 
   wishForm.addEventListener("submit", async e => {
@@ -1081,17 +1082,17 @@
     if (!name || !message) { wErr.textContent = "اكتب اسمك وتهنئتك الأول"; return; }
     wErr.textContent = "";
     const btn = document.getElementById("w-send"); btn.disabled = true; btn.textContent = "ثانية واحدة…";
-    let sent = true;
-    try { await sendWish(name, message); } catch (_) { sent = false; }
+    let sent = true, why = "";
+    try { await sendWish(name, message); } catch (err) { sent = false; why = err.message || String(err); console.warn("wish not sent:", err); }
     btn.disabled = false; btn.textContent = "ابعت التهنئة";
-    showLetter(name, sent);
+    showLetter(name, sent, why);
   });
 
-  function showLetter(name, sent) {
+  function showLetter(name, sent, why) {
     guestName = name;
     const nameEl = document.getElementById("l-name"); nameEl.textContent = name;
     document.getElementById("l-body").textContent = LETTER_LINES.join(" ");
-    document.getElementById("l-note").textContent = sent ? "" : "تهنئتك ممكن تكون ما وصلتش، بس دعوتك جاهزة — جرّب تبعتها تاني بعد شوية.";
+    document.getElementById("l-note").textContent = sent ? "" : "تهنئتك ممكن تكون ما وصلتش، بس دعوتك جاهزة — جرّب تبعتها تاني بعد شوية. (" + why + ")";
     wishForm.classList.add("hidden"); letterOut.classList.remove("hidden");
     letterCard.classList.remove("play"); void letterCard.offsetWidth;
     document.getElementById("wish").scrollIntoView({ behavior: "smooth", block: "start" });
