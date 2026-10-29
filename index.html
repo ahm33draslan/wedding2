@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#f7f1ea">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playpen+Sans+Arabic:wght@100;200;300;400;500;600&family=Great+Vibes&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playpen+Sans+Arabic:wght@100;200;300;400;500;600&family=Great+Vibes&family=Gulzar&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <style>
   :root {
@@ -458,9 +458,10 @@
   .footer .eyebrow::after { transform: scaleX(-1); }
   .env-letter .mono i, .footer .sig i { font-family: "Great Vibes", cursive; font-weight: 400; font-size: 1.35em; color: var(--rose); margin: 0 .05em; line-height: 0; vertical-align: -.08em; }
 
-  .signoff { margin: 56px auto 52px; padding: 30px 20px; max-width: 360px; border-top: 1px solid rgba(184,146,74,.35); border-bottom: 1px solid rgba(184,146,74,.35); direction: rtl; }
-  .signoff .lbl { font-family: "Playpen Sans Arabic", sans-serif; font-weight: 400; font-size: 14px; letter-spacing: 0; color: var(--muted); margin: 0 0 16px; }
-  .signoff .who { font-family: "Aref Ruqaa", "Playpen Sans Arabic", serif; font-weight: 700; font-size: clamp(26px, 7.4vw, 34px); line-height: 1.9; color: var(--wine); margin: 0; }
+  .signoff { margin: 44px auto 56px; padding: 0 16px; direction: rtl; text-align: center; }
+  .signoff .lbl { display: flex; align-items: center; justify-content: center; gap: 12px; font-family: "Playpen Sans Arabic", sans-serif; font-weight: 400; font-size: 14px; letter-spacing: 0; color: var(--gold); margin: 0 0 6px; }
+  .signoff .lbl::before, .signoff .lbl::after { content: ""; width: 34px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+  .signoff .who { font-family: "Gulzar", "Playpen Sans Arabic", serif; font-size: min(7.4vw, 30px); line-height: 2; color: var(--wine); margin: 0; white-space: nowrap; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
@@ -605,10 +606,6 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="#b8924a" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         الساعة 6 ونص بالليل
       </span>
-      <div class="signoff reveal d3">
-        <p class="lbl">توقيع</p>
-        <p class="who">الوزة المستخبية للعمليات الإرهابية</p>
-      </div>
       <div class="btns reveal d3">
         <a class="btn ghost" id="cal-btn" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
@@ -649,6 +646,10 @@
       <p class="ar reveal">مستنيينكم… من غيركم الفرحة متكملش</p>
       <p class="sig reveal blur d1">علــي <i>&amp;</i> ســوزي</p>
       <p class="eyebrow reveal d2" dir="ltr">18 · 11 · 2026</p>
+      <div class="signoff reveal d3">
+        <p class="lbl">توقيع</p>
+        <p class="who">الوزة المستخبية للعمليات الإرهابية</p>
+      </div>
       <div class="btns reveal d3">
         <button class="btn ghost" id="replay">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
