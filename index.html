@@ -500,7 +500,7 @@
   .letter::before { content: ""; position: absolute; inset: 7px; border: 1px solid rgba(184,146,74,.3); border-radius: 3px; pointer-events: none; }
   .letter .l-heart { width: 22px; height: 22px; color: var(--rose); }
   .letter .l-kicker { font-family: "Playpen Sans Arabic", sans-serif; font-size: 13px; color: var(--gold); margin: 10px 0 0; }
-  .letter .l-name { font-family: "Playpen Sans Arabic", sans-serif; font-weight: 700; font-size: 30px; line-height: 1.5; color: var(--wine); margin: 4px 0 14px; overflow-wrap: anywhere; }
+  .letter .l-name { font-family: "Playpen Sans Arabic", sans-serif; font-weight: 700; font-size: 30px; line-height: 1.5; color: var(--wine); margin: 4px 0 14px; white-space: nowrap; }
   .letter .l-body { font-family: "Playpen Sans Arabic", sans-serif; font-weight: 400; font-size: 16px; line-height: 2; color: var(--ink); margin: 0; }
   .letter .l-with { font-family: "Playpen Sans Arabic", sans-serif; font-size: 14px; color: var(--gold); margin: 20px 0 0; }
   .letter .sigsvg { width: 62%; margin: 0 auto; transform: rotate(-2deg); }
@@ -693,7 +693,7 @@
     <section class="card" id="wish" style="margin-top:60px">
       <p class="eyebrow reveal">كلمة من قلبك</p>
       <h3 class="cd-title reveal d1">سيب لنا بصمتك</h3>
-      <p class="reveal d1" style="font-size:15px;color:var(--muted);margin-top:6px">اكتب اسمك وتهنئتك، وهتوصلك دعوة باسمك تحتفظ بيها</p>
+      <p class="reveal d1" style="font-size:15px;color:var(--muted);margin-top:6px">اكتب اسمك وتهنئتك</p>
       <form class="wish-form reveal d2" id="wish-form" autocomplete="off">
         <label>اسمك<input type="text" name="name" id="w-name" maxlength="40" required placeholder="اكتب اسمك"></label>
         <label>تهنئتك<textarea name="message" id="w-msg" maxlength="500" required placeholder="اكتب كلمتك لينا…"></textarea></label>
@@ -1058,7 +1058,7 @@
     "كلمتك دخلت قلبنا قبل ما توصلنا، وفرّحتنا أوي.",
     "وجودك وسط ناسنا الحلوين هو أحلى هدية في ليلة العمر،",
     "ومن غيرك الفرحة متكملش.",
-    "مستنيينك يوم " + DATE_TEXT + " ♥"
+    "مستنيينك"
   ];
   const wishForm = document.getElementById("wish-form"), letterOut = document.getElementById("letter-out");
   const letterCard = document.getElementById("letter-card"), wErr = document.getElementById("w-err");
@@ -1089,14 +1089,21 @@
 
   function showLetter(name, sent) {
     guestName = name;
-    document.getElementById("l-name").textContent = name;
+    const nameEl = document.getElementById("l-name"); nameEl.textContent = name;
     document.getElementById("l-body").textContent = LETTER_LINES.join(" ");
     document.getElementById("l-note").textContent = sent ? "" : "تهنئتك ممكن تكون ما وصلتش، بس دعوتك جاهزة — جرّب تبعتها تاني بعد شوية.";
     wishForm.classList.add("hidden"); letterOut.classList.remove("hidden");
     letterCard.classList.remove("play"); void letterCard.offsetWidth;
     document.getElementById("wish").scrollIntoView({ behavior: "smooth", block: "start" });
+    fitName();
     setTimeout(() => letterCard.classList.add("play"), 350);
   }
+  // shrink the name until it fits on one line inside the letter
+  function fitName() {
+    const el = document.getElementById("l-name"); let fs = 30; el.style.fontSize = fs + "px";
+    while (el.scrollWidth > el.clientWidth && fs > 12) { fs -= 1; el.style.fontSize = fs + "px"; }
+  }
+  addEventListener("resize", () => { if (!letterOut.classList.contains("hidden")) fitName(); });
   document.getElementById("w-again").addEventListener("click", () => {
     letterOut.classList.add("hidden"); letterCard.classList.remove("play");
     wishForm.classList.remove("hidden"); wishForm.reset();
@@ -1120,7 +1127,7 @@
     x.fillStyle = v("--gold"); x.font = '400 40px "Playpen Sans Arabic"'; x.fillText("دعوة خاصة", W / 2, 305);
     // name, shrunk to fit
     let fs = 120; x.font = '700 ' + fs + 'px "Playpen Sans Arabic"';
-    while (x.measureText(name).width > W - 280 && fs > 48) { fs -= 4; x.font = '700 ' + fs + 'px "Playpen Sans Arabic"'; }
+    while (x.measureText(name).width > W - 280 && fs > 20) { fs -= 4; x.font = '700 ' + fs + 'px "Playpen Sans Arabic"'; }
     x.fillStyle = v("--wine"); x.fillText(name, W / 2, 450);
     x.fillStyle = v("--ink"); x.font = '400 46px "Playpen Sans Arabic"';
     const wrapped = []; let cur = "";
