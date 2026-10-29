@@ -458,10 +458,11 @@
   .footer .eyebrow::after { transform: scaleX(-1); }
   .env-letter .mono i, .footer .sig i { font-family: "Great Vibes", cursive; font-weight: 400; font-size: 1.35em; color: var(--rose); margin: 0 .05em; line-height: 0; vertical-align: -.08em; }
 
-  .signoff { margin: 44px auto 56px; padding: 0 16px; direction: rtl; text-align: center; }
-  .signoff .lbl { display: flex; align-items: center; justify-content: center; gap: 12px; font-family: "Playpen Sans Arabic", sans-serif; font-weight: 400; font-size: 14px; letter-spacing: 0; color: var(--gold); margin: 0 0 6px; }
-  .signoff .lbl::before, .signoff .lbl::after { content: ""; width: 34px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
-  .signoff .who { font-family: "Gulzar", "Playpen Sans Arabic", serif; font-size: min(7.4vw, 30px); line-height: 2; color: var(--wine); margin: 0; white-space: nowrap; }
+  @font-face { font-family: "A Arslan Wessam B"; src: local("A Arslan Wessam B"), local("(A) Arslan Wessam B"), url("assets/fonts/A-Arslan-Wessam-B.ttf") format("truetype"); font-display: swap; }
+  /* a signature line: the name is "written" on the line, the caption sits underneath it */
+  .signoff { margin: 48px auto 56px; padding: 0 22px; max-width: 380px; direction: rtl; }
+  .signoff .who { font-family: "A Arslan Wessam B", "Gulzar", "Playpen Sans Arabic", serif; font-size: min(7.4vw, 30px); line-height: 1.8; color: var(--wine); margin: 0; white-space: nowrap; text-align: center; transform: rotate(-2deg); padding-bottom: 4px; border-bottom: 1px solid rgba(184,146,74,.7); }
+  .signoff .lbl { font-family: "Playpen Sans Arabic", sans-serif; font-weight: 400; font-size: 12px; letter-spacing: 0; color: var(--muted); margin: 8px 0 0; text-align: right; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
@@ -647,8 +648,8 @@
       <p class="sig reveal blur d1">علــي <i>&amp;</i> ســوزي</p>
       <p class="eyebrow reveal d2" dir="ltr">18 · 11 · 2026</p>
       <div class="signoff reveal d3">
-        <p class="lbl">توقيع</p>
         <p class="who">الوزة المستخبية للعمليات الإرهابية</p>
+        <p class="lbl">توقيع</p>
       </div>
       <div class="btns reveal d3">
         <button class="btn ghost" id="replay">
