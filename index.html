@@ -461,10 +461,20 @@
   @font-face { font-family: "A Arslan Wessam B"; src: local("A Arslan Wessam B"), local("(A) Arslan Wessam B"), url("assets/fonts/A-Arslan-Wessam-B.ttf") format("truetype"); font-display: swap; }
   /* a signature line: the name is "written" on the line, the caption sits underneath it */
   .signoff { margin: 48px auto 56px; padding: 0 22px; max-width: 380px; direction: rtl; }
-  .signoff .who { font-family: "A Arslan Wessam B", "Gulzar", "Playpen Sans Arabic", serif; font-size: min(7.4vw, 30px); line-height: 1.8; color: var(--wine); margin: 0; white-space: nowrap; text-align: center; transform: rotate(-2deg); padding-bottom: 4px; border-bottom: 1px solid rgba(184,146,74,.7); }
-  .signoff .lbl { font-family: "Playpen Sans Arabic", sans-serif; font-weight: 400; font-size: 16px; letter-spacing: 0; color: var(--ink); opacity: .7; margin: 8px 0 0; text-align: right; }
+  .signoff .who { font-family: "A Arslan Wessam B", "Gulzar", "Playpen Sans Arabic", serif; font-size: min(7.4vw, 30px); line-height: 1.8; color: var(--wine); margin: 0; white-space: nowrap; text-align: center; transform: rotate(-2deg); padding-bottom: 4px; position: relative; clip-path: inset(-40% 0 -40% 100%);
+    background: linear-gradient(rgba(184,146,74,.7), rgba(184,146,74,.7)) right bottom / 100% 1px no-repeat; }
+  .signoff .who::after { content: ""; position: absolute; right: 0; bottom: 14px; width: 7px; height: 7px; border-radius: 50%; background: var(--wine); box-shadow: 0 0 8px 2px rgba(125,46,61,.45); opacity: 0; }
+  /* written right to left, like a pen moving across the line; the nib dot rides the reveal edge */
+  .signoff.active .who { animation: penWrite 3.4s cubic-bezier(.45,.1,.35,1) 1s forwards; }
+  .signoff.active .who::after { animation: penNib 3.4s cubic-bezier(.45,.1,.35,1) 1s forwards; }
+  .signoff .lbl { opacity: 0; transition: opacity 1s ease 4.4s; }
+  .signoff.active .lbl { opacity: .7; }
+  @keyframes penWrite { from { clip-path: inset(-40% 0 -40% 100%); } to { clip-path: inset(-40% 0 -40% 0); } }
+  @keyframes penNib { 0% { right: 0; opacity: 1; } 92% { opacity: 1; } 100% { right: calc(100% - 7px); opacity: 0; } }
+  .signoff .lbl { font-family: "Playpen Sans Arabic", sans-serif; font-weight: 400; font-size: 16px; letter-spacing: 0; color: var(--ink); margin: 8px 0 0; text-align: right; }
 
   @media (prefers-reduced-motion: reduce) {
+    .signoff .who { clip-path: none; }
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
   }
 </style>
