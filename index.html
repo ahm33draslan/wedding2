@@ -977,8 +977,11 @@
     // Letter is out: bring it in front and zoom it toward the viewer.
     setTimeout(() => {
       letter.style.zIndex = "50";
-      letter.style.boxShadow = "0 30px 50px -16px rgba(58,42,46,.45)";
-      letter.style.transform = "translateY(-45%) scale(1.4)";
+      // keep the inner double frame (inset shadows) while adding the lifted drop shadow
+      letter.style.boxShadow = "0 30px 50px -16px rgba(58,42,46,.45), inset 0 0 0 1px rgba(184,146,74,.35), inset 0 0 0 6px #fffdf9, inset 0 0 0 7px rgba(184,146,74,.25)";
+      // zoom toward the viewer, but never past the screen edges so the letter's thin inner frame stays visible
+      const zoom = Math.min(1.4, (innerWidth - 28) / letter.offsetWidth);
+      letter.style.transform = "translateY(-45%) scale(" + zoom + ")";
     }, 2300);
     setTimeout(() => envelopeView.classList.add("leaving"), 2900);
     setTimeout(() => {
