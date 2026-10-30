@@ -769,6 +769,10 @@
 <script>
   const WEDDING = new Date("2026-11-18T18:30:00+02:00"); // Cairo time
   // Venue pin (short link keeps the QR code clean)
+  // Always start at the top: browsers restore the previous scroll position on reload / back, which can leave the envelope scrolled out of place.
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  scrollTo(0, 0);
+  addEventListener("pageshow", e => { if (e.persisted || scrollY > 0) scrollTo(0, 0); });
   const MAP_URL = "https://maps.app.goo.gl/UQDpXebvBwEX2SVu5";
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
