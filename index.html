@@ -413,7 +413,7 @@
   .divider { margin: 40px 0; }
   @supports (animation-timeline: view()) {
     /* footer excluded: it sits at the page bottom and could never scroll far enough to finish blending in */
-    .wrap > .card, .wrap > .divider {
+    .wrap > .card:not(#wish), .wrap > .divider {
       animation: blend linear both; animation-timeline: view(); animation-range: entry 0% exit 100%;
     }
     @keyframes blend {
@@ -684,13 +684,17 @@
       </div>
     </section>
 
-    <section class="card" style="margin-top:60px">
+    <div class="divider reveal"><span></span><svg class="heart-svg"><use href="#heart-line"/></svg><span></span></div>
+
+    <section class="card">
       <p class="eyebrow reveal">فاضل قد إيه؟</p>
       <h3 class="cd-title reveal d1">على ليلة العمر</h3>
       <div class="countdown reveal d2" id="countdown"></div>
     </section>
 
-    <section class="card" id="wish" style="margin-top:60px">
+    <div class="divider reveal"><span></span><svg class="heart-svg"><use href="#heart-line"/></svg><span></span></div>
+
+    <section class="card" id="wish">
       <p class="eyebrow reveal">كلمة من قلبك</p>
       <h3 class="cd-title reveal d1">سيب لنا بصمتك</h3>
       <p class="reveal d1" style="font-size:15px;color:var(--muted);margin-top:6px">اكتب اسمك وتهنئتك</p>
