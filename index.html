@@ -198,21 +198,18 @@
     box-shadow: 0 30px 60px -20px rgba(58,42,46,.45);
   }
   .frame .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; display: block; transform: scale(1.18); transition: transform 1.8s var(--ease); }
-  /* one soft sweep of light across the photo as it lands */
-  .frame .photo::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
-    background: linear-gradient(105deg, transparent 30%, rgba(255,247,232,.55) 50%, transparent 70%); transform: translateX(-100%);
-  }
   .frame.active .photo { opacity: 1; transform: none; }
   .frame.active .photo img { transform: scale(1); animation: kenburns 14s ease-in-out 1.8s infinite alternate; }
-  .frame.active .photo::after { animation: photoSweep 1.4s ease-out .7s 1 both; }
-  @keyframes photoSweep { 0% { opacity: 0; transform: translateX(-100%); } 25% { opacity: 1; } 100% { opacity: 0; transform: translateX(100%); } }
   .frame .outline {
     position: absolute; inset: -12px; border-radius: 999px 999px 26px 26px; border: 1px solid var(--gold);
     opacity: 0; transform: scale(.9); transition: opacity 1s .35s ease, transform 1.2s .35s var(--ease);
   }
   .frame .outline.o2 { inset: -20px; border-color: rgba(184,146,74,.35); transition-delay: .55s; }
   .frame.active .outline { opacity: 1; transform: none; }
+  /* once settled, the two gold outlines breathe slowly, out of step with each other */
+  .frame.active .outline { animation: ringBreath 6s ease-in-out 2s infinite alternate; }
+  .frame.active .outline.o2 { animation-delay: 3.4s; animation-direction: alternate-reverse; }
+  @keyframes ringBreath { from { scale: 1; opacity: 1; } to { scale: 1.018; opacity: .55; } }
   .sprig { position: absolute; width: 130px; height: 130px; overflow: visible; pointer-events: none; z-index: 2; }
   .sprig.bl { left: -54px; bottom: -36px; }
   .sprig.tr { right: -52px; top: 34%; transform: scaleX(-1) rotate(160deg); width: 100px; height: 100px; }
@@ -347,7 +344,7 @@
      GPU layer so a pulse never triggers layout or repaint */
   [data-beat] { will-change: scale; }
   .footer .sig i { display: inline-block; }
-  .frame .glow {
+  .frame .glow { display: none;
     position: absolute; inset: -12px; border-radius: 999px 999px 26px 26px; pointer-events: none;
     box-shadow: 0 0 26px rgba(226,200,143,.85); opacity: 0; will-change: opacity;
   }
