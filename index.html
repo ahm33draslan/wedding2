@@ -933,7 +933,7 @@
   }
   function frame() {
     updateBeat();
-    const boost = 1 + beat * 0.8; // petals flutter a little on each beat
+    const boost = 1; // petals fall at a steady pace, independent of the music
     ctx.clearRect(0, 0, innerWidth, innerHeight);
     for (let i = petals.length - 1; i >= 0; i--) {
       const p = petals[i];
