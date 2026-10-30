@@ -413,8 +413,15 @@
   .divider { margin: 40px 0; }
   @supports (animation-timeline: view()) {
     /* footer excluded: it sits at the page bottom and could never scroll far enough to finish blending in */
-    .wrap > .card:not(#wish), .wrap > .divider {
+    .wrap > .card, .wrap > .divider {
       animation: blend linear both; animation-timeline: view(); animation-range: entry 0% exit 100%;
+    }
+    /* the tall form card moves with its neighbours but never fades, so it stays readable */
+    .wrap > #wish { animation-name: blendSolid; transform-origin: 50% 0; }
+    @keyframes blendSolid {
+      0%   { translate: 0 70px; scale: .94; }
+      28%, 72% { translate: 0 0; scale: 1; }
+      100% { translate: 0 -50px; scale: .96; }
     }
     @keyframes blend {
       0%   { opacity: 0;   translate: 0 70px; scale: .94; }
