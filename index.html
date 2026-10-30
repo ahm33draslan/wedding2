@@ -890,7 +890,7 @@
   const canvas = document.getElementById("petals");
   const ctx = canvas.getContext("2d");
   const COLORS = ["#ecc9c3", "#f3d9d4", "#e4b3ad", "#f7e6dc", "#e2c88f"];
-  let petals = [];
+  let petals = [], prevW = 0;
   function makePetal(burstFrom) {
     const p = {
       x: Math.random() * innerWidth, y: -20 - Math.random() * innerHeight,
@@ -910,7 +910,13 @@
     canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const count = reduceMotion ? 0 : innerWidth < 768 ? 12 : 26;
-    petals = Array.from({ length: count }, () => makePetal());
+    // Mobile browsers fire "resize" whenever the address bar shows/hides while scrolling. Keep the petals already in
+    // flight (just fit them to the new width) instead of rebuilding them all above the screen, which made them vanish.
+    const falling = petals.filter(p => !p.burst);
+    if (prevW && prevW !== innerWidth) falling.forEach(p => { p.x = Math.min(p.x * innerWidth / prevW, innerWidth); });
+    prevW = innerWidth;
+    if (falling.length > count) petals = petals.filter(p => p.burst || falling.indexOf(p) < count);
+    while (falling.length < count) { const np = makePetal(); falling.push(np); petals.push(np); }
   }
   function burst(x, y, n = 36) { if (!reduceMotion) for (let i = 0; i < n; i++) petals.push(makePetal({ x, y })); }
   function drawPetal(p) {
