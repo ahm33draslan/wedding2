@@ -206,10 +206,6 @@
   }
   .frame .outline.o2 { inset: -20px; border-color: rgba(184,146,74,.35); transition-delay: .55s; }
   .frame.active .outline { opacity: 1; transform: none; }
-  /* once settled, the two gold outlines breathe slowly, out of step with each other */
-  .frame.active .outline { animation: ringBreath 6s ease-in-out 2s infinite alternate; }
-  .frame.active .outline.o2 { animation-delay: 3.4s; animation-direction: alternate-reverse; }
-  @keyframes ringBreath { from { scale: 1; opacity: 1; } to { scale: 1.018; opacity: .55; } }
   .sprig { position: absolute; width: 130px; height: 130px; overflow: visible; pointer-events: none; z-index: 2; }
   .sprig.bl { left: -54px; bottom: -36px; }
   .sprig.tr { right: -52px; top: 34%; transform: scaleX(-1) rotate(160deg); width: 100px; height: 100px; }
